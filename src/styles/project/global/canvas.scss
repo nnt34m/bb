@@ -1,8 +1,0 @@
-@use '../../utils/extend/position';
-@use '../../utils/zindex' as *;
-
-.canvas {
-  @extend %position-absolute-cover;
-  z-index: z('canvas');
-  pointer-events: none;
-}
