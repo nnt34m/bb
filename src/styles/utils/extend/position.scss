@@ -1,0 +1,34 @@
+@use './size';
+
+%position-absolute-left-top {
+
+  position: absolute;
+  left: 0;
+  top: 0;
+
+}
+
+
+%position-fixed-left-top {
+
+  position: fixed;
+  left: 0;
+  top: 0;
+
+}
+
+
+%position-absolute-cover {
+
+  @extend %size-cover;
+  @extend %position-absolute-left-top;
+
+}
+
+
+%position-fixed-cover {
+
+  @extend %size-cover;
+  @extend %position-fixed-left-top;
+
+}

@@ -1,0 +1,521 @@
+---
+import Base from 'base:Base.astro'
+import StrokedButton from 'elements:StrokedButton.astro'
+import Person from 'blocks:Person.astro'
+
+export async function getStaticPaths() {
+  return [
+    { params: { lang: 'en' } },
+    { params: { lang: 'ru' } },
+    { params: { lang: 'by' } },
+  ]
+}
+
+const { lang } = Astro.request.params
+
+const heading = {
+  ru: 'Узнайте, на что способна ваша память!',
+  en: 'Find out what your memory is capable of!',
+  by: 'Узнайте, на что способна ваша память!',
+}
+
+const startButton = {
+  ru: 'Старт',
+  en: 'Start',
+  by: 'Старт',
+}
+
+const restartButton = {
+  ru: 'Пройти заново',
+  en: 'Restart',
+  by: 'Пройти заново',
+}
+
+
+const submitter = {
+  ru: 'Подтвердить',
+  en: 'Confirm',
+  by: 'Подтвердить',
+}
+
+
+const resultHeading = {
+  ru: 'Вы ответили на <span class="result-right-answers">4</span> из <span class="result-questions-amount">10</span> вопросов!',
+  en: 'You answered <span class="result-right-answers">4</span> out of <span class="result-questions-amount">10</span> questions!',
+  by: 'Вы ответили на <span class="result-right-answers">4</span> из <span class="result-questions-amount">10</span> вопросов!',
+}
+
+
+const persons = [
+  {
+    id: 'einstein',
+    name: {
+      ru: 'Альберт Эйнштейн',
+      by: 'Альберт Эйнштейн',
+      en: 'Альберт Эйнштейн',
+    },
+    description: {
+      ru: 'Не расстраивайтесь, все в жизни помнить невозможно, даже лауреаты Нобелевской премии имеют пробелы в памяти. Вот, например, Альберт Эйнштейн. Несмотря на то что великий ученый уже в 15 лет освоил интегралы и дифференциалы, он имел плохую память на простые вещи: не запоминал лица, даты и некоторые события в жизни. Даже собственный номер телефона он никак не мог запомнить. Однажды Эйнштейн ехал в поезде. Когда кондуктор подошел к нему и попросил предъявить билет, ученый стал рыться в карманах. Внезапно служащий железной дороги узнал физика и разрешил ему проехать бесплатно в знак уважения. На что Эйнштейн ответил: «Спасибо, но, если я не найду свой билет, то не буду знать, на какой станции мне выходить». Эйнштейн не раз говорил, что если бы у него ничего не получилось с наукой, то пришлось бы податься в музыканты, ведь он необыкновенно любил играть на скрипке. Задумайтесь, не пора ли и вам освоить музыкальный инструмент? Возможно, это и есть ваше предназначение.',
+      en: 'Не расстраивайтесь, все в жизни помнить невозможно, даже лауреаты Нобелевской премии имеют пробелы в памяти. Вот, например, Альберт Эйнштейн. Несмотря на то что великий ученый уже в 15 лет освоил интегралы и дифференциалы, он имел плохую память на простые вещи: не запоминал лица, даты и некоторые события в жизни. Даже собственный номер телефона он никак не мог запомнить. Однажды Эйнштейн ехал в поезде. Когда кондуктор подошел к нему и попросил предъявить билет, ученый стал рыться в карманах. Внезапно служащий железной дороги узнал физика и разрешил ему проехать бесплатно в знак уважения. На что Эйнштейн ответил: «Спасибо, но, если я не найду свой билет, то не буду знать, на какой станции мне выходить». Эйнштейн не раз говорил, что если бы у него ничего не получилось с наукой, то пришлось бы податься в музыканты, ведь он необыкновенно любил играть на скрипке. Задумайтесь, не пора ли и вам освоить музыкальный инструмент? Возможно, это и есть ваше предназначение.',
+      by: 'Не расстраивайтесь, все в жизни помнить невозможно, даже лауреаты Нобелевской премии имеют пробелы в памяти. Вот, например, Альберт Эйнштейн. Несмотря на то что великий ученый уже в 15 лет освоил интегралы и дифференциалы, он имел плохую память на простые вещи: не запоминал лица, даты и некоторые события в жизни. Даже собственный номер телефона он никак не мог запомнить. Однажды Эйнштейн ехал в поезде. Когда кондуктор подошел к нему и попросил предъявить билет, ученый стал рыться в карманах. Внезапно служащий железной дороги узнал физика и разрешил ему проехать бесплатно в знак уважения. На что Эйнштейн ответил: «Спасибо, но, если я не найду свой билет, то не буду знать, на какой станции мне выходить». Эйнштейн не раз говорил, что если бы у него ничего не получилось с наукой, то пришлось бы податься в музыканты, ведь он необыкновенно любил играть на скрипке. Задумайтесь, не пора ли и вам освоить музыкальный инструмент? Возможно, это и есть ваше предназначение.'
+    },
+    image: '/assets/images/persons/einstein.jpg'
+  },
+  {
+    id: 'tesla',
+    name: {
+      ru: 'Никола Тесла',
+      by: 'Никола Тесла',
+      en: 'Никола Тесла',
+    },
+    description: {
+      ru: 'Этот ученый обладал великолепной фотографической памятью и ярким воображением. Он мог запоминать целые книги и подробно воспроизводить сложные изображения. Никола Тесла детально визуализировал все изобретения в собственной голове и проводил «ходовые испытания», не делая при этом никаких записей, моделей и чертежей. К примеру, свой электродвигатель он придумал на прогулке в Будапештском парке, во время чтения книги Гёте «Фауст». Внезапно у него в голове возникло изображение вращающегося магнитного поля, схему которого он незамедлительно нарисовал на песке. Одни называют его экстрасенсом, предсказавшим современный мир, другие — шарлатаном, третьи — великим ученым. Однако мы обязаны этому изобретателю множеством технических устройств, которые считаются революционными и по сей день. Благодаря ему появились пульты дистанционного управления, радио, люминесцентная лампочка, асинхронный двигатель для пылесосов и фенов, рентген и многое другое. Может, и вам пора взяться за разработку суперкомпьютера или космического корабля? Поверьте в себя — и все получится!',
+      en: 'Этот ученый обладал великолепной фотографической памятью и ярким воображением. Он мог запоминать целые книги и подробно воспроизводить сложные изображения. Никола Тесла детально визуализировал все изобретения в собственной голове и проводил «ходовые испытания», не делая при этом никаких записей, моделей и чертежей. К примеру, свой электродвигатель он придумал на прогулке в Будапештском парке, во время чтения книги Гёте «Фауст». Внезапно у него в голове возникло изображение вращающегося магнитного поля, схему которого он незамедлительно нарисовал на песке. Одни называют его экстрасенсом, предсказавшим современный мир, другие — шарлатаном, третьи — великим ученым. Однако мы обязаны этому изобретателю множеством технических устройств, которые считаются революционными и по сей день. Благодаря ему появились пульты дистанционного управления, радио, люминесцентная лампочка, асинхронный двигатель для пылесосов и фенов, рентген и многое другое. Может, и вам пора взяться за разработку суперкомпьютера или космического корабля? Поверьте в себя — и все получится!',
+      by: 'Этот ученый обладал великолепной фотографической памятью и ярким воображением. Он мог запоминать целые книги и подробно воспроизводить сложные изображения. Никола Тесла детально визуализировал все изобретения в собственной голове и проводил «ходовые испытания», не делая при этом никаких записей, моделей и чертежей. К примеру, свой электродвигатель он придумал на прогулке в Будапештском парке, во время чтения книги Гёте «Фауст». Внезапно у него в голове возникло изображение вращающегося магнитного поля, схему которого он незамедлительно нарисовал на песке. Одни называют его экстрасенсом, предсказавшим современный мир, другие — шарлатаном, третьи — великим ученым. Однако мы обязаны этому изобретателю множеством технических устройств, которые считаются революционными и по сей день. Благодаря ему появились пульты дистанционного управления, радио, люминесцентная лампочка, асинхронный двигатель для пылесосов и фенов, рентген и многое другое. Может, и вам пора взяться за разработку суперкомпьютера или космического корабля? Поверьте в себя — и все получится!'
+    },
+    image: '/assets/images/persons/tesla.jpg'
+  },
+  {
+    id: 'kasparov',
+    name: {
+      ru: 'Гарри Каспаров',
+      by: 'Гарри Каспаров',
+      en: 'Гарри Каспаров',
+    },
+    description: {
+      ru: 'В поединке с искусственным интеллектом вы одержали абсолютную победу — на такое способен только Гарри Каспаров! Известный шахматист был классическим вундеркиндом: игрушки не любил, интересовался книгами и газетами. В пять лет он подсказал родителям решение шахматной задачи: отец с матерью были заядлыми игроками и каждый вечер дружно склонялись над доской. В 22 года Гарик стал самым молодым чемпионом мира в истории шахмат и удерживает этот рекорд по сей день. Как и великий шахматист, вы могли бы оказаться в десятке самых умных людей мира. Ваш IQ неумолимо стремится к цифре 190, о чем свидетельствует результат теста. Покупайте шахматную доску и, как знать, возможно, в вас проснется гениальный гроссмейстер.',
+      en: 'В поединке с искусственным интеллектом вы одержали абсолютную победу — на такое способен только Гарри Каспаров! Известный шахматист был классическим вундеркиндом: игрушки не любил, интересовался книгами и газетами. В пять лет он подсказал родителям решение шахматной задачи: отец с матерью были заядлыми игроками и каждый вечер дружно склонялись над доской. В 22 года Гарик стал самым молодым чемпионом мира в истории шахмат и удерживает этот рекорд по сей день. Как и великий шахматист, вы могли бы оказаться в десятке самых умных людей мира. Ваш IQ неумолимо стремится к цифре 190, о чем свидетельствует результат теста. Покупайте шахматную доску и, как знать, возможно, в вас проснется гениальный гроссмейстер.',
+      by: 'В поединке с искусственным интеллектом вы одержали абсолютную победу — на такое способен только Гарри Каспаров! Известный шахматист был классическим вундеркиндом: игрушки не любил, интересовался книгами и газетами. В пять лет он подсказал родителям решение шахматной задачи: отец с матерью были заядлыми игроками и каждый вечер дружно склонялись над доской. В 22 года Гарик стал самым молодым чемпионом мира в истории шахмат и удерживает этот рекорд по сей день. Как и великий шахматист, вы могли бы оказаться в десятке самых умных людей мира. Ваш IQ неумолимо стремится к цифре 190, о чем свидетельствует результат теста. Покупайте шахматную доску и, как знать, возможно, в вас проснется гениальный гроссмейстер.'
+    },
+    image: '/assets/images/persons/kasparov.jpg'
+  }
+]
+
+
+const resultDescriptions = [
+  {
+    ru: 'Неплохо! Возможно ваша память как у <button data-modal-caller="einstein" class="result-description-button">Эйнштейна</button>. Может быть вы скоро совершите настоящее открытие?',
+    en: 'Неплохо! Возможно ваша память как у <button data-modal-caller="einstein" class="result-description-button">Эйнштейна</button>. Может быть вы скоро совершите настоящее открытие?',
+    by: 'Неплохо! Возможно ваша память как у <button data-modal-caller="einstein" class="result-description-button">Эйнштейна</button>. Может быть вы скоро совершите настоящее открытие?',
+  },
+  {
+    ru: 'Неплохо! Возможно ваша память как у <button data-modal-caller="tesla" class="result-description-button">Тесла</button>. Может быть вы скоро совершите настоящее открытие?',
+    en: 'Неплохо! Возможно ваша память как у <button data-modal-caller="tesla" class="result-description-button">Тесла</button>. Может быть вы скоро совершите настоящее открытие?',
+    by: 'Неплохо! Возможно ваша память как у <button data-modal-caller="tesla" class="result-description-button">Тесла</button>. Может быть вы скоро совершите настоящее открытие?',
+  },
+  {
+    ru: 'Неплохо! Возможно ваша память как у <button data-modal-caller="kasparov" class="result-description-button">Каспарова</button>. Может быть вы скоро совершите настоящее открытие?',
+    en: 'Неплохо! Возможно ваша память как у <button data-modal-caller="kasparov" class="result-description-button">Каспарова</button>. Может быть вы скоро совершите настоящее открытие?',
+    by: 'Неплохо! Возможно ваша память как у <button data-modal-caller="kasparov" class="result-description-button">Каспарова</button>. Может быть вы скоро совершите настоящее открытие?',
+  }
+]
+
+
+---
+
+<Base lang={lang}>
+
+  <div class="quiz">
+    <div class="start">
+      <h1 class="start-heading">{heading[lang]}</h1>
+      <StrokedButton className="start-button">{startButton[lang]}</StrokedButton>
+    </div>
+    <div class="form">
+      <div class="form-heading">
+        <span class="form-current-question-number">3</span> из <span class="form-total-question-number">10</span>
+      </div>
+      <p class="form-question"></p>
+      <div class="form-answers">
+      </div>
+      <div class="form-controls">
+        <button class="form-submitter">{submitter[lang]}</button>
+      </div>
+    </div>
+    <div class="result">
+      <div class="result-heading">
+        {resultHeading[lang]}
+      </div>
+      <svg class="result-emoji"><use xlink:href="#sprite-emoji"></use></svg>
+      <div class="result-descriptions">
+        {
+          resultDescriptions.map((desc, i) => <p class={`result-description result-description-${i}`}>{desc[lang]}</p>)
+        }
+      </div>
+      <StrokedButton className="result-restart-button">{restartButton[lang]}</StrokedButton>
+    </div>
+    {
+      persons.map(person =>
+        <Person person={person} lang={lang}/>
+      )
+    }
+  </div>
+
+</Base>
+
+
+<style lang="scss">
+
+  @use '../../styles/utils/zindex' as *;
+  @use '../../styles/utils/easings' as *;
+
+  .quiz {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: z('quiz');
+
+    width: 100%;
+    height: var(--height, 100%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: opacity 0.5s;
+    opacity: 0;
+  }
+
+
+  :global(.quiz-out) .quiz {
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+
+
+  :global(.quiz-in) .quiz {
+    opacity: 1;
+  }
+
+
+  .start {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+    transition: opacity 0.5s;
+  }
+
+
+  .form-stage .start,
+  .result-stage .start {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+
+  .start-heading {
+    font-size: 6.4rem;
+    line-height: 7.4rem;
+    letter-spacing: 0.03em;
+    text-align: center;
+    font-weight: 400;
+
+    max-width: 100rem;
+    margin: 10rem 0;
+
+    color: var(--color-2);
+    opacity: 0;
+    transition: opacity 0.5s;
+
+    @media (max-width: 1024px) and (orientation: landscape) {
+      font-size: 8rem;
+      line-height: 8.4rem;
+      max-width: 120rem;
+    }
+
+  }
+
+
+  :global(.quiz-in-end) .start-heading {
+
+    opacity: 1;
+    transition: opacity 1s;
+
+  }
+
+
+  .start-button {
+    font-size: 6.4rem;
+    text-transform: uppercase;
+    color: var(--color-3);
+    opacity: 0;
+    transition: opacity 0.5s;
+
+  }
+
+
+  :global(.quiz-in-end) .start-button {
+
+    opacity: 1;
+    transition: opacity 1s 0.2s;
+
+  }
+
+
+  .form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+
+    width: 90rem;
+    padding: 3rem 5rem;
+    min-height: 60vh;
+
+    color: var(--color-2);
+    box-sizing: border-box;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s;
+
+    @media (max-width: 1024px) and (orientation: landscape)  {
+      width: 130rem;
+    }
+
+  }
+
+
+  .form::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 5.6rem 1.8rem rgba(101, 79, 0, 0.11), inset -4.8rem 4.8rem 4.8rem rgba(255, 255, 255, 0.102);
+  }
+
+
+  .form-stage .form {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+
+  .form-heading {
+    font-size: 5.4rem;
+    line-height: 7.8rem;
+    letter-spacing: 0.03em;
+
+    align-self: flex-start;
+    justify-self: flex-start;
+
+    margin-bottom: 5.4rem;
+
+    @media (max-width: 1024px) and (orientation: landscape)  {
+      font-size: 7rem;
+      margin-bottom: 7rem;
+    }
+
+  }
+
+
+  .form-question {
+    font-size: 2.1rem;
+    line-height: 2.5rem;
+    font-family: var(--font-second-semi);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    width: 100%;
+    margin-bottom: 6rem;
+
+    transition: opacity 0.5s;
+    opacity: 0;
+
+    @media (max-width: 1024px) and (orientation: landscape)  {
+      font-size: 3.5rem;
+      line-height: 4rem;
+      margin-bottom: 7rem;
+    }
+  }
+
+
+  .form-question.fade-in {
+    opacity: 1;
+  }
+
+
+  .form-answers {
+    flex-grow: 2;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 4.8rem 8rem;
+    width: 100%;
+    margin-bottom: 8.1rem;
+  }
+
+
+  :global(.form-answer) {
+    display: inline-flex;
+    width: 43%;
+    align-items: center;
+    cursor: pointer;
+    transition: opacity 0.5s;
+    opacity: 0;
+  }
+
+
+  :global(.form-answer.fade-in) {
+    opacity: 1;
+  }
+
+
+  :global(.form-answer-input) {
+    flex-shrink: 0;
+    display: block;
+    width: 3rem;
+    height: 3rem;
+    margin-right: 2rem;
+    cursor: pointer;
+  }
+
+
+  :global(.form-answer-name) {
+    font-size: 1.8rem;
+    font-weight: 600;
+    font-family: var(--font-second-semi);
+    letter-spacing: 0.03em;
+    transition: color 0.3s;
+
+    @media (max-width: 1024px) and (orientation: landscape)  {
+      font-size: 3rem;
+    }
+  }
+
+
+  :global(.correct .form-answer-name) {
+    color: var(--color-4);
+  }
+
+
+  :global(.incorrect .form-answer-name) {
+    color: var(--color-6);
+  }
+
+
+  .form-controls {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+
+  .form-submitter {
+    flex-grow: 1;
+    font-size: 3.6rem;
+    color: var(--color-3);
+    transition: opacity 0.3s;
+
+    @media (max-width: 1024px) and (orientation: landscape)  {
+      font-size: 4.5rem;
+    }
+  }
+
+
+  .form-submitter:hover {
+    opacity: 0.7;
+  }
+
+
+  .result {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+
+    color: var(--color-2);
+
+    margin-top: 10rem;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s;
+  }
+
+
+  .result-stage .result {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+
+  .result-heading {
+    font-size: 5.4rem;
+    line-height: 7.8rem;
+    letter-spacing: 0.03em;
+    text-align: center;
+
+    max-width: 82.5rem;
+    margin-bottom: 6rem;
+
+    @media (max-width: 1024px) and (orientation: landscape)  {
+      font-size: 6rem;
+    }
+
+  }
+
+
+  .result-emoji {
+    width: 7.4rem;
+    height: 7.9rem;
+    margin-bottom: 2rem;
+
+    @media (max-width: 1024px) and (orientation: landscape) {
+      width: 9.4rem;
+      height: 9.9rem;
+    }
+  }
+
+
+  .result-description {
+    font-size: 2.4rem;
+    font-weight: 600;
+    font-family: var(--font-second-semi);
+    letter-spacing: 0.03em;
+    text-align: center;
+
+    margin-bottom: 13.5rem;
+    max-width: 71.4rem;
+
+    display: none;
+
+    @media (max-width: 1024px) and (orientation: landscape)  {
+      font-size: 3.5rem;
+      max-width: 60vw;
+    }
+
+  }
+
+
+  .result-description.active {
+    display: block;
+  }
+
+
+  :global(.result-description-button) {
+
+    border-bottom: 0.2rem solid var(--color-2);
+    transition: color 0.3s, border-color 0.3s;
+  }
+
+
+  :global(.result-description-button):hover {
+    color: var(--color-3);
+    border-color: var(--color-3);
+  }
+
+
+  .result-restart-button {
+    font-size: 6.4rem;
+    text-transform: uppercase;
+    color: var(--color-3);
+  }
+
+</style>

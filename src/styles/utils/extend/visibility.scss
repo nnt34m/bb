@@ -1,0 +1,24 @@
+%visibility-hidden-scrollbar {
+
+  scrollbar-width: none;
+
+}
+
+%visibility-hidden-scrollbar::-webkit-scrollbar {
+
+  display: none;
+
+}
+
+%visibility-hidden-element {
+
+  position: absolute !important;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0 !important;
+  border: 0 !important;
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden;
+
+}

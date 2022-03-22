@@ -1,0 +1,63 @@
+---
+import Base from 'base:Base.astro'
+import Back from 'blocks:Back.astro'
+import Description from 'elements:Description.astro'
+import Navigator from 'elements:Navigator.astro'
+
+const { lang, data, name } = Astro.props
+
+const IDsCounter = {}
+const years = new Array()
+const momentsIDs = data.map(value => {
+
+  years.push(value.yearStart.en)
+  let id = name + '-' + value.yearStart.en + (value.yearEnd && '-' + value.yearEnd.en || '')
+  id = id.toLowerCase().replace(' ', '')
+
+  if(!IDsCounter[id]) IDsCounter[id] = 0
+  IDsCounter[id] += 1
+
+  id += IDsCounter[id] - 1 ? '-' + IDsCounter[id] : ''
+
+
+  return id
+
+})
+
+
+
+---
+
+<Base lang={lang}>
+
+  <Navigator years={Array.from(new Set(years))}/>
+
+  <div class="category" data-name={name}>
+
+    <svg class="category-scroll-signal">
+      <use xlink:href="#sprite-scroll-arrow"></use>
+    </svg>
+
+    {
+      data.map((value, momentID) =>
+        <div class={`moment moment_${momentsIDs[momentID]}`} data-year={years[momentID]}>
+          <div class="moment__images">
+            {
+              value.images.map((image) =>
+                <img class="moment__image" src="#" data-src={image.src} alt={value.yearStart[lang]} data-paper={image.isPaper}>
+              )
+            }
+          </div>
+          <Description
+            yearStart={value.yearStart[lang]}
+            yearEnd={value.yearEnd && value.yearEnd[lang]}
+            description={value.description[lang]}
+          ></Description>
+        </div>
+      )
+    }
+
+    <Back lang={lang}/>
+  </div>
+
+</Base>

@@ -1,0 +1,21 @@
+---
+
+const { years } = Astro.props
+
+---
+
+<div class="navigator">
+  <div class="navigator__years">
+    {
+      years.map(year =>
+        <button class="navigator__year" data-year={year}>{year}</button>
+      )
+    }
+  </div>
+  <div class="navigator__scrollbar">
+    <div class="navigator__scrollbar__knob"></div>
+  </div>
+</div>
+<button class="navigator-button">
+  <img class="navigator-button__icon" src="/assets/images/icons/time.png" alt="timeline">
+</button>

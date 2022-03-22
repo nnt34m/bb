@@ -1,0 +1,47 @@
+@use '../../utils/zindex' as *;
+
+
+.screen-alert {
+
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  z-index: z('alert');
+
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  background-color: var(--color-1);
+
+}
+
+
+.screen-alert.active {
+  display: flex;
+}
+
+
+.screen-alert__description {
+
+  font-size: 6vmin;
+  letter-spacing: 0.03em;
+  text-align: center;
+
+  max-width: 95vmin;
+  margin-bottom: 6rem;
+
+  color: var(--color-2);
+
+}
+
+
+.screen-alert__icon {
+  width: 12vmin;
+  height: 12vmin;
+}
+

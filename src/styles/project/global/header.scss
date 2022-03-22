@@ -1,0 +1,225 @@
+@use '../../utils/extend/position';
+@use '../../utils/extend/flex';
+@use '../../utils/zindex' as *;
+@use '../../utils/easings' as *;
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: z('header');
+
+  width: 100%;
+  height: 100%;
+  padding: 4.2rem 10rem;
+
+  pointer-events: none;
+  overflow: hidden;
+
+  @media (max-width: 1024px) {
+    padding: 3rem 5vmin;
+  }
+
+  @media (max-height: 450px) {
+    padding: 5vmin 7vmin;
+  }
+
+  opacity: 0;
+
+}
+
+
+.ready .header {
+  opacity: 1;
+}
+
+
+.header__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.header__logo-link {
+  pointer-events: auto;
+}
+
+
+.language-in .header__logo-link {
+  pointer-events: none;
+}
+
+
+.header__logo {
+  width: 43.3rem;
+  height: 6rem;
+  transform: translateX(calc(50vw - 43.3rem / 2 - 10rem));
+  opacity: 0;
+
+  @media (max-width: 1024px) {
+    transform: translateX(calc(50vw - 43.3rem / 2 - 5vmin));
+  }
+
+  @media (max-height: 450px) {
+    width: 50rem;
+    height: 6rem;
+    transform: translateX(calc(50vw - 50rem / 2 - 7vmin));
+  }
+
+}
+
+
+.ready-t .header__logo {
+  opacity: 1;
+  transition: opacity 1s, transform 1s $easeInOutExpo;
+}
+
+
+.category-route .header__logo {
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+
+@media (max-width: 768px) {
+
+  .categories-in .header__logo {
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+}
+
+
+.header__navigation {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.header__navigation__link {
+  font-size: 2.4rem;
+  text-transform: uppercase;
+
+  color: var(--color-3);
+
+  opacity: 0;
+  transition: opacity 0.3s, color 0.5s;
+  pointer-events: none;
+
+  @media (max-height: 450px) {
+    font-size: 3rem;
+  }
+}
+
+
+.header__navigation__link:not(:last-child) {
+  margin-right: 4rem;
+}
+
+
+[data-category="technologies"] .header__navigation__link_technologies {
+  color: var(--color-2);
+}
+
+
+[data-category="money"] .header__navigation__link_money {
+  color: var(--color-2);
+}
+
+
+[data-category="achievements"] .header__navigation__link_achievements {
+  color: var(--color-2);
+}
+
+
+.category-route .header__navigation__link {
+  opacity: 1;
+  transition: opacity 1s 0.5s, color 0.5s;
+  pointer-events: auto;
+}
+
+
+.header__quiz-link {
+  @extend %flex-center-xy;
+  flex-shrink: 0;
+
+  font-size: 2.4rem;
+  font-family: var(--font-second-semi);
+  position: relative;
+
+  color: var(--color-3);
+
+  opacity: 0;
+  transition: opacity 0.5s;
+
+  @media (max-height: 450px) {
+    font-size: 4rem;
+  }
+
+}
+
+
+.categories-in .header__quiz-link,
+.categories-out .header__quiz-link,
+.category-route .header__quiz-link {
+  transition: opacity 1s 1s;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+.header__quiz-link__ellipse {
+  position: absolute;
+  height: 250%;
+  max-width: 300%;
+  stroke: var(--color-2);
+  stroke-dasharray: 1216.9189453125;
+  stroke-dashoffset: 1216.9189453125;
+  transition: stroke 0.4s;
+}
+
+
+.category-route .header__quiz-link__ellipse,
+.categories-in .header__quiz-link__ellipse {
+  animation: draw 2s 0.5s ease-in-out forwards;
+}
+
+
+.header__quiz-link:hover .header__quiz-link__ellipse {
+  stroke: var(--color-3);
+}
+
+
+.header__dev-link {
+  font-family: var(--font-second-regular);
+
+  position: absolute;
+  bottom: 3.7rem;
+  left: 50%;
+
+  color: var(--color-2);
+
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.5s;
+
+  @media (max-width: 1024px) {
+    font-size: 2rem;
+  }
+
+  @media (max-height: 450px) {
+    font-size: 3.5rem;
+    bottom: 10rem;
+  }
+
+}
+
+
+.categories-in .header__dev-link {
+  transition: opacity 1s 1.5s;
+  opacity: 1;
+  pointer-events: auto;
+}

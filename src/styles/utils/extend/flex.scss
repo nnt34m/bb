@@ -1,0 +1,33 @@
+%flex-center-xy {
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+
+%flex-center-xy-col {
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+}
+
+
+%flex-center-x {
+
+  display: flex;
+  justify-content: center;
+
+}
+
+
+%flex-center-y {
+
+  display: flex;
+  align-items: center;
+
+}

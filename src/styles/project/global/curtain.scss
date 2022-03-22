@@ -1,0 +1,17 @@
+@use '../../utils/extend/position';
+@use '../../utils/zindex' as *;
+@use '../../utils/easings' as *;
+
+.curtain {
+  @extend %position-absolute-cover;
+  z-index: z('curtain');
+  background-color: var(--color-1);
+  pointer-events: none;
+  will-change: opacity;
+}
+
+
+.ready .curtain {
+  transition: opacity 1s;
+  opacity: 0;
+}

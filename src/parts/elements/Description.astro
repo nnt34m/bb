@@ -1,0 +1,20 @@
+---
+
+  const { yearStart, yearEnd, description, paragraphMode } = Astro.props
+
+---
+
+<div class="description">
+  <div class="description__title">
+    <div class="description__title__year-1">{yearStart}</div>
+    <div class="description__title__year-2">{'- ' + yearEnd}</div>
+  </div>
+  <div class="description__paragraph-wrapper" data-scroll-dzone>
+    <p class={`description__paragraph ${paragraphMode ? 'description__paragraph_' + paragraphMode : ''}`}>
+      {description}
+    </p>
+  </div>
+  {
+    yearEnd && <div role="presentation" class="description__year-after">{'- ' + yearEnd}</div>
+  }
+</div>

@@ -1,0 +1,274 @@
+---
+
+  const { lang } = Astro.props
+
+  const data = {
+    slogan: {
+      ru: [
+        'Всегда рядом.',
+        'Рядом с каждым',
+      ],
+      en: [
+        'Always nearby.',
+        'Next to everyone',
+      ],
+      by: [
+        'Заусёды побач.',
+        'Побач з кожным',
+      ],
+    },
+    start: {
+      ru: 'Старт',
+      en: 'Start',
+      by: 'Старт',
+    }
+  }
+
+---
+
+<section class="intro">
+
+  <div class="logo">
+    <div class="logo-model"></div>
+    <p class="logo-slogan">
+      {
+        data.slogan[lang].map(value => <span class="logo-slogan-line">{value}</span>)
+      }
+    </p>
+  </div>
+
+  <svg><use xlink:href="#sprite-stripe"></use></svg>
+
+  <button class="start-button">{data.start[lang]}</button>
+
+</section>
+
+
+<style lang="scss">
+
+  @use '../../styles/utils/zindex' as *;
+  @use '../../styles/utils/easings' as *;
+
+  .intro {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: z('intro');
+  }
+
+
+  :global(.intro-out) .intro {
+    pointer-events: none;
+  }
+
+
+  .logo {
+    display: flex;
+    align-items: center;
+
+    @media (max-width: 1024px) and (orientation: portrait) {
+      flex-direction: column;
+    }
+
+    @media (max-height: 450px) {
+      // margin-bottom: 15rem;
+    }
+
+  }
+
+
+  .logo-model {
+    width: 48.1rem;
+    height: 23.7rem;
+    margin-right: 10.5rem;
+    background-color: var(--color-3);
+    opacity: 0;
+
+    @media (max-width: 1024px) and (orientation: portrait) {
+      width: 42.1rem;
+      height: 20.7rem;
+    }
+
+    @media (max-width: 1024px) and (orientation: portrait) {
+      margin-right: 0;
+    }
+
+    @media (max-height: 450px) {
+      width: 55.1rem;
+      height: 30.7rem;
+      margin-right: 15rem;
+    }
+
+  }
+
+
+  .logo-slogan {
+    font-size: 8rem;
+    font-family: var(--font-special);
+
+    color: var(--color-4);
+
+    transition: opacity 0.5s;
+    opacity: 0;
+
+    @media (max-width: 1024px) and (orientation: portrait) {
+      width: 42.1rem;
+      height: 20.7rem;
+    }
+
+    @media (max-width: 1024px) and (orientation: portrait) {
+      text-align: center;
+    }
+
+    @media (max-height: 450px) {
+      font-size: 12rem;
+    }
+
+  }
+
+
+  :global(.home-in) .logo-slogan {
+    opacity: 1;
+  }
+
+
+  .logo-slogan-line {
+    display: block;
+  }
+
+
+  :global(.logo-slogan .letter) {
+    transition-property: opacity;
+    transition-duration: 0.5s;
+  }
+
+
+  :global(.logo-slogan .letter) {
+    opacity: 0;
+  }
+
+
+  :global(.home-in .logo-slogan .letter) {
+    transition-delay: calc(var(--delay) + 0.5s);
+    opacity: 1;
+  }
+
+
+  :global(.intro-out .logo-slogan .letter) {
+    transition-delay: calc(var(--delay) * 0.5 + 0.1s);
+    transition-duration: 0.2s;
+    opacity: 0;
+  }
+
+
+  svg {
+    position: absolute;
+    bottom: 0rem;
+    width: 100vw;
+    height: 50vh;
+    stroke-dasharray: 2827.009033203125;
+    stroke-dashoffset: 2827.009033203125;
+    pointer-events: none;
+  }
+
+  :global(.home-out) svg {
+    animation: drawIntroStripeBackward 0.5s forwards;
+  }
+
+  :global(.home-in) svg {
+    animation: draw 6s forwards $easeInOutExpo;
+  }
+
+
+  :global(.intro-out) svg {
+    animation: drawIntroStripeForward 1s forwards;
+  }
+
+
+  .start-button {
+    font-family: var(--font-second-semi);
+    font-size: 2.6rem;
+    text-transform: uppercase;
+
+    position: fixed;
+    bottom: 5.5rem;
+    z-index: 1;
+
+    color: var(--color-2);
+
+    opacity: 0;
+    pointer-events: none;
+
+    @media (max-width: 1024px) {
+      font-size: 3.5rem;
+    }
+
+    @media (max-height: 450px) {
+      font-size: 5rem;
+      bottom: 10rem;
+    }
+
+  }
+
+
+  :global(.home-out) .start-button {
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+
+  :global(.home-in) .start-button {
+    transition: opacity 2s 2s;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+
+  :global(.intro-out) .start-button {
+    transition: opacity 0.3s;
+    opacity: 0;
+  }
+
+
+  .start-button::after,
+  .start-button::before {
+    content: "";
+
+    position: absolute;
+    bottom: -0.5rem;
+    left: 0;
+
+    width: 100%;
+    height: 0.4rem;
+
+    background-color: var(--color-3);
+
+    @media (max-height: 450px) {
+      height: 0.6rem;
+    }
+  }
+
+
+  :global(.home-in) .start-button::before,
+  :global(.home-out) .start-button::before {
+    animation: flashlight 2s 1.4s infinite;
+  }
+
+
+  .start-button::after {
+    transition: opacity 0.5s;
+    opacity: 0;
+  }
+
+
+  .start-button:hover::after {
+    opacity: 1;
+  }
+
+
+</style>

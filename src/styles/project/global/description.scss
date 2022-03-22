@@ -1,0 +1,150 @@
+@use '../../utils/extend/position';
+@use '../../utils/extend/flex';
+@use '../../utils/zindex' as *;
+@use '../../utils/easings' as *;
+
+.description {
+  position: relative;
+  padding-left: 13.9rem;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  opacity: 0;
+}
+
+
+.category-in .description {
+
+  transition: opacity 2s 0.2s;
+  opacity: 1;
+
+}
+
+
+.category-out .description {
+
+  transition: opacity 0.5s;
+  opacity: 0;
+
+}
+
+
+.description__title {
+  position: absolute;
+  left: 13.9rem;
+  bottom: 0;
+  font-size: 9.6rem;
+  color: var(--color-3);
+  transform: translateX(-100%) rotate(-90deg);
+  transform-origin: top;
+  will-change: transform;
+
+  @media (max-width: 1024px) {
+    font-size: 11rem;
+  }
+
+}
+
+
+
+.description__title__year-1 {
+}
+
+
+.description__title__year-2 {
+  display: none;
+}
+
+
+.description__paragraph-wrapper {
+  position: relative;
+  max-width: 50rem;
+
+  @media (max-width: 1024px) {
+    max-width: 75rem;
+  }
+
+  @media (max-height: 450px) {
+    max-width: 85rem;
+  }
+}
+
+
+.description__paragraph-wrapper::before {
+
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+
+.description__paragraph-wrapper:hover::before {
+
+  opacity: 1;
+
+}
+
+
+@media (max-width: 1024px) {
+  .description__paragraph-wrapper.has-overflow::after {
+
+    content: "";
+    background-color: var(--color-2);
+    position: absolute;
+    right: -4rem;
+    bottom: 0rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    clip-path: polygon(100% 0, 0 0, 50% 100%);
+    transition: transform 0.2s;
+    will-change: transform;
+  }
+
+
+  .description__paragraph-wrapper.has-overflow.end-scroll::after {
+    transform: rotateX(-180deg);
+  }
+}
+
+
+.description__paragraph {
+  position: relative;
+  font-family: var(--font-paragraph);
+  font-size: 2.1rem;
+  // max-height: 25rem;
+  padding-right: 2rem;
+  color: var(--color-2);
+  cursor:text;
+  scrollbar-width: none;
+
+  @media (max-width: 1024px) {
+    font-size: 3rem;
+    overflow: auto;
+    max-height: 50rem;
+  }
+
+  @media (max-height: 450px) {
+    font-size: 3.5rem;
+  }
+
+}
+
+
+.description__paragraph::-webkit-scrollbar {
+  display: none;
+}
+
+
+.description__year-after {
+  font-size: 9.6rem;
+  line-height: 1.2;
+  color: var(--color-3);
+  transform: translateY(24%);
+}

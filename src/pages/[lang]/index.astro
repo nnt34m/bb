@@ -1,0 +1,24 @@
+---
+import Base from 'base:Base.astro'
+import Categories from 'blocks:Categories.astro'
+import Intro from 'sections:Intro.astro'
+
+
+export async function getStaticPaths() {
+  return [
+    { params: { lang: 'en' } },
+    { params: { lang: 'ru' } },
+    { params: { lang: 'by' } },
+  ]
+}
+
+const { lang } = Astro.request.params
+
+
+---
+
+
+<Base lang={lang}>
+  <Intro lang={lang}/>
+  <Categories lang={lang}/>
+</Base>

@@ -1,0 +1,35 @@
+---
+import BaseHead from './BaseHead.astro'
+import Header from 'blocks:Header.astro'
+import Presentation from 'blocks:Presentation.astro'
+import ScreenAlert from 'blocks:ScreenAlert.astro'
+import Alert from 'elements:Alert.astro'
+
+const { lang = 'en' } = Astro.props
+
+---
+<html lang={lang}>
+  <head>
+    <BaseHead
+      title="Belarusbank"
+      description="Belarusbank 100 years"
+      permalink="https://belarusbank.by/"
+    />
+  </head>
+
+  <body>
+
+    <Alert/>
+    <ScreenAlert/>
+    <Presentation/>
+    <Header/>
+
+    <main class="content">
+      <slot></slot>
+    </main>
+
+    <script type="module" src={Astro.resolve('../../scripts/main.ts')} hoist></script>
+
+  </body>
+
+</html>

@@ -1,0 +1,215 @@
+---
+
+  const { person, lang } = Astro.props
+
+  const okButton = {
+    ru: 'Это интересно!',
+    by: 'Это интересно!',
+    en: 'This is interesting!',
+  }
+
+---
+
+<div class="person" data-modal={person.id}>
+  <div class="person-image-wrapper">
+    <img class="person-image" alt={person.name[lang]} src={person.image}>
+  </div>
+  <div class="person-info">
+    <div class="person-name">{person.name[lang]}</div>
+    <div class="person-description-wrapper">
+      <p class="person-description">{person.description[lang]}</p>
+    </div>
+    <button class="person-ok-button" data-modal-closer={person.id}>
+      {okButton[lang]}
+      <svg class="person-ok-button-ellipse"><use xlink:href="#sprite-ellipse"></use></svg>
+    </button>
+    <button class="person-close-button" data-modal-closer={person.id}>
+      <svg class="person-close-button-cross"><use xlink:href="#sprite-cross"></use></svg>
+    </button>
+  </div>
+</div>
+
+<style lang="scss">
+
+  .person {
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    bottom: 0;
+
+    height: 56.8rem;
+
+    display: flex;
+
+    background-color: var(--color-7);
+    border-radius: 2.5rem 2.5rem 0px 0px;
+    box-shadow: 0px -1.1rem 2.5rem rgba(0, 0, 0, 0.3);
+
+    transform: translateX(-50%) translateY(105%);
+    transition: transform 0.5s;
+
+    overflow: hidden;
+
+    @media(max-width: 1024px) {
+      height: 68rem;
+    }
+  }
+
+
+  .person.ready {
+    display: flex;
+  }
+
+
+  .person.active {
+    transform: translateX(-50%) translateY(0);
+  }
+
+
+  .person-image-wrapper {
+    flex-shrink: 0;
+    width: 42rem;
+    height: 100%;
+
+    @media(max-height: 450px) {
+      width: 55rem;
+    }
+  }
+
+
+  .person-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+
+  .person-info {
+    position: relative;
+    width: 84rem;
+    padding: 8rem;
+    display: flex;
+    flex-direction: column;
+
+    @media(max-height: 450px) {
+      width: 100rem;
+    }
+  }
+
+
+  .person-name {
+    font-size: 4.8rem;
+    letter-spacing: 0.03em;
+
+    margin-bottom: 4rem;
+
+    color: var(--color-2);
+
+    @media(max-width: 1024px) {
+      font-size: 5.5rem;
+    }
+
+  }
+
+
+  .person-description-wrapper {
+    position: relative;
+    margin-bottom: 8.1rem;
+  }
+
+
+  .person-description-wrapper::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -1rem;
+    width: 100%;
+    height: 20%;
+    background: linear-gradient(to bottom, rgba(19, 202, 114, 0), rgba(19, 202, 114, 1));
+  }
+
+
+  .person-description {
+    font-family: var(--font-second-semi);
+    font-size: 2.1rem;
+    font-weight: 600;
+
+    max-height: 20rem;
+    padding-bottom: 5rem;
+    overflow: auto;
+    scrollbar-width: none;
+
+    color: var(--color-1);
+
+    @media(max-width: 1024px) {
+      font-size: 2.5rem;
+      max-height: 30rem;
+    }
+
+    @media(max-height: 450px) {
+      font-size: 3rem;
+      max-height: 29rem;
+    }
+
+  }
+
+
+  .person-description::-webkit-scrollbar {
+    display: none;
+  }
+
+
+  .person-ok-button {
+    font-family: var(--font-second-semi);
+    font-size: 2.4rem;
+    font-weight: 600;
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    transition: color 0.3s;
+
+    @media(max-height: 450px) {
+      font-size: 3rem;
+    }
+  }
+
+
+  .person-ok-button-ellipse {
+    position: absolute;
+    zindex: -1;
+    justify-self: flex-end;
+    width: 200%;
+    height: 300%;
+    stroke: var(--color-2);
+  }
+
+
+  .person-ok-button:hover {
+    color: var(--color-2);
+  }
+
+
+  .person-close-button {
+    position: absolute;
+    top: 4rem;
+    right: 4rem;
+    width: 3rem;
+    height: 3rem;
+  }
+
+
+  .person-close-button-cross {
+    width: 100%;
+    height: 100%;
+    fill: var(--color-1);
+    transition: fill 0.3s;
+  }
+
+
+  .person-close-button:hover .person-close-button-cross {
+    fill: var(--color-2);
+  }
+
+</style>
